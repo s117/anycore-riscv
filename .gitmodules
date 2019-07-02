@@ -24,4 +24,5 @@
 	url = https://github.com/anycore/anycore-riscv-synth.git
 [submodule "riscv-gnu-toolchain"]
 	path = riscv-gnu-toolchain
-	url = https://github.com/riscv/riscv-gnu-toolchain.git
+	url = https://github.com/s117/riscv-gnu-toolchain.git
+	branch = 4.9.2_anycore
