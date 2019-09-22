@@ -14,7 +14,8 @@
 	url = https://github.com/anycore/riscv-isa-sim.git
 [submodule "anycore-riscv-src"]
 	path = anycore-riscv-src
-	url = https://github.com/anycore/anycore-riscv-src.git
+	url = https://github.com/s117/anycore-riscv-src.git
+	branch = add_mmu
 [submodule "anycore-riscv-tests"]
 	path = anycore-riscv-tests
 	url = https://github.com/s117/anycore-riscv-tests.git
