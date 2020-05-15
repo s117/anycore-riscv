@@ -14,11 +14,12 @@
 	url = https://github.com/anycore/riscv-isa-sim.git
 [submodule "anycore-riscv-src"]
 	path = anycore-riscv-src
-	url = https://github.com/anycore/anycore-riscv-src.git
+	url = https://github.com/s117/anycore-riscv-src.git
+	branch = questasim_ver
 [submodule "anycore-riscv-tests"]
 	path = anycore-riscv-tests
 	url = https://github.com/s117/anycore-riscv-tests.git
-	branch = try_run_sim
+	branch = questasim_ver
 [submodule "riscv-dpi"]
 	path = riscv-dpi
 	url = https://github.com/anycore/riscv-dpi.git
