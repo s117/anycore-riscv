@@ -1,11 +1,9 @@
 [submodule "riscv-fesvr"]
 	path = riscv-fesvr
 	url = https://github.com/s117/riscv-fesvr.git
-	branch = anycore
 [submodule "riscv-pk"]
 	path = riscv-pk
 	url = https://github.com/s117/riscv-pk.git
-	branch = anycore
 [submodule "riscv-tests"]
 	path = riscv-tests
 	url = https://github.com/riscv/riscv-tests.git
@@ -15,11 +13,9 @@
 [submodule "anycore-riscv-src"]
 	path = anycore-riscv-src
 	url = https://github.com/s117/anycore-riscv-src.git
-	branch = questasim_ver
 [submodule "anycore-riscv-tests"]
 	path = anycore-riscv-tests
 	url = https://github.com/s117/anycore-riscv-tests.git
-	branch = questasim_ver
 [submodule "riscv-dpi"]
 	path = riscv-dpi
 	url = https://github.com/anycore/riscv-dpi.git
@@ -28,5 +24,4 @@
 	url = https://github.com/anycore/anycore-riscv-synth.git
 [submodule "riscv-gnu-toolchain"]
 	path = riscv-gnu-toolchain
-	url = https://github.com/s117/riscv-gnu-toolchain.git
-	branch = 4.9.2_anycore
+	url = https://github.com/riscv/riscv-gnu-toolchain.git
