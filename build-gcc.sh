@@ -1,5 +1,5 @@
 #!/bin/bash
-# Script to build RISC-V ISA simulator, proxy kernel, and RISC-V DPI code required for RTL simulations.
+# Script to build RISC-V GNU Toolchain.
 
 # This file uses source code from the University of Berkeley RISC-V project
 # in original or modified form.
@@ -13,8 +13,8 @@
 export RISCV_INSTALL=$PWD/install
 
 ### Set the correct compiler path if using a custom GCC build
-#GCC_PATH=/afs/eos.ncsu.edu/lockers/research/ece/ericro/common/gcc492_64
-#GCC_SUFFIX=492
+#GCC_PATH=/afs/eos.ncsu.edu/lockers/research/ece/ericro/common/gcc920_64
+#GCC_SUFFIX=920
 
 #export CC=$GCC_PATH/bin/gcc$GCC_SUFFIX
 #export CXX=$GCC_PATH/bin/g++$GCC_SUFFIX
@@ -32,11 +32,4 @@ export RISCV_INSTALL=$PWD/install
 
 source ./build.common
 
-#if [ ! `which riscv64-unknown-elf-gcc` ]
-echo "Starting RISC-V GNU Toolchain build process"
-
-build_project riscv-gnu-toolchain --prefix=$RISCV_INSTALL
-
-
-echo -e "RISC-V GNU Toolchain installation completed!"
-
+build_gcc_newlib riscv-gnu-toolchain --prefix=$RISCV_INSTALL --with-arch=rv64imfd --with-abi=lp64d

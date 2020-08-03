@@ -52,3 +52,43 @@ function build_tests {
   $MAKE -j$JOBS > /dev/null
   cd - > /dev/null
 }
+
+function build_gcc_linux {
+  echo "Starting RISC-V GNU Toolchain (Linux) build process"
+  echo
+  if [ -e "$1/build_linux" ]
+  then
+    echo "Removing existing $1/build_linux directory"
+    rm -rf $1/build_linux
+  fi
+  mkdir -p $1/build_linux
+  cd $1/build_linux
+  echo "Configuring project $1"
+  ../configure $2 $3 $4 $5 $6 > build.log
+  echo "Building project $1"
+  $MAKE -j$JOBS linux >> build.log
+  echo "Installing project $1"
+  $MAKE -j$JOBS install >> build.log
+  cd - > /dev/null
+  echo -e "RISC-V GNU Toolchain (Linux) installation completed!"
+}
+
+function build_gcc_newlib {
+  echo "Starting RISC-V GNU Toolchain (newlib) build process"
+  echo
+  if [ -e "$1/build_newlib" ]
+  then
+    echo "Removing existing $1/build_newlib directory"
+    rm -rf $1/build_newlib
+  fi
+  mkdir -p $1/build_newlib
+  cd $1/build_newlib
+  echo "Configuring project $1"
+  ../configure $2 $3 $4 $5 $6 > build.log
+  echo "Building project $1"
+  $MAKE -j$JOBS newlib >> build.log
+  echo "Installing project $1"
+  $MAKE -j$JOBS install >> build.log
+  cd - > /dev/null
+  echo -e "RISC-V GNU Toolchain (Newlib) installation completed!"
+}
