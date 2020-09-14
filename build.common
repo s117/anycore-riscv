@@ -1,11 +1,11 @@
-# This file uses source code from the University of Berkeley RISC-V project 
+# This file uses source code from the University of Berkeley RISC-V project
 # in original or modified form.
 # Please see LICENSE for details.
 
 # Script to build RISC-V ISA simulator, proxy kernel, and GNU toolchain.
 # Tools will be installed to $RISCV.
 
-JOBS=16
+JOBS=8
 
 if [ "x$RISCV_INSTALL" = "x" ]
 then
@@ -91,4 +91,12 @@ function build_gcc_newlib {
   $MAKE -j$JOBS install >> build.log
   cd - > /dev/null
   echo -e "RISC-V GNU Toolchain (Newlib) installation completed!"
+}
+
+function check_newlib_gcc {
+  if [ ! `which riscv64-unknown-elf-gcc` ]
+  then
+    echo "riscv64-unknown-elf-gcc doesn't appear to be installed; it is required for building the proxy kernel; use the build-gcc.sh to build and install it."
+    exit 1
+  fi
 }

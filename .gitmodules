@@ -25,4 +25,3 @@
 [submodule "riscv-gnu-toolchain"]
 	path = riscv-gnu-toolchain
 	url = https://github.com/s117/riscv-gnu-toolchain.git
-	branch = 9.2.0_anycore
