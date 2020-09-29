@@ -5,7 +5,7 @@
 # Script to build RISC-V ISA simulator, proxy kernel, and GNU toolchain.
 # Tools will be installed to $RISCV.
 
-JOBS=8
+JOBS=$(nproc)
 
 if [ "x$RISCV_INSTALL" = "x" ]
 then

@@ -1,0 +1,65 @@
+function vcs_version {
+  2>&1 pushd $1 > /dev/null
+  local git_ver=$(git rev-parse --short=7 HEAD)
+  if [[ -z "$(git status --untracked-files=no --porcelain)" ]]; then
+    echo "$git_ver"
+  else
+    echo "$git_ver-dirty"
+  fi
+  2>&1 popd > /dev/null
+}
+
+# log_anycore_root_version_to() {
+#   VER_DIR=$1/version
+#   mkdir -p $VER_DIR
+#   echo "$(vcs_version .) - Anycore root"                                > $VER_DIR/anycore
+#   echo "$2"                                                            >> $VER_DIR/anycore
+# }
+
+log_newlib_toolchain_version_to() {
+  VER_DIR=$1/version
+  mkdir -p $VER_DIR
+  echo "$(vcs_version riscv-gnu-toolchain) - Toolchain"                 > $VER_DIR/riscv64-unknown-elf-toolchain
+  echo "$(vcs_version riscv-gnu-toolchain/riscv-binutils) - Binutils"  >> $VER_DIR/riscv64-unknown-elf-toolchain
+  echo "$(vcs_version riscv-gnu-toolchain/riscv-gcc) - GCC"            >> $VER_DIR/riscv64-unknown-elf-toolchain
+  echo "$(vcs_version riscv-gnu-toolchain/riscv-newlib) - Newlib"      >> $VER_DIR/riscv64-unknown-elf-toolchain
+  echo "$2"                                                            >> $VER_DIR/riscv64-unknown-elf-toolchain
+}
+
+log_linux_toolchain_version_to() {
+  VER_DIR=$1/version
+  mkdir -p $VER_DIR
+  echo "$(vcs_version riscv-gnu-toolchain) - Toolchain"                 > $VER_DIR/riscv64-unknown-linux-gnu-toolchain
+  echo "$(vcs_version riscv-gnu-toolchain/riscv-binutils ) - Binutils" >> $VER_DIR/riscv64-unknown-linux-gnu-toolchain
+  echo "$(vcs_version riscv-gnu-toolchain/riscv-gcc) - GCC"            >> $VER_DIR/riscv64-unknown-linux-gnu-toolchain
+  echo "$(vcs_version riscv-gnu-toolchain/riscv-glibc) - glibc"        >> $VER_DIR/riscv64-unknown-linux-gnu-toolchain
+  echo "$2"                                                            >> $VER_DIR/riscv64-unknown-linux-gnu-toolchain
+}
+
+log_fesvr_version_to() {
+  VER_DIR=$1/version
+  mkdir -p $VER_DIR
+  echo "$(vcs_version riscv-fesvr) - FESVR"                             > $VER_DIR/fesvr
+  echo "$2"                                                            >> $VER_DIR/fesvr
+}
+
+log_spike_version_to() {
+  VER_DIR=$1/version
+  mkdir -p $VER_DIR
+  echo "$(vcs_version riscv-isa-sim) - Spike"                           > $VER_DIR/spike
+  echo "$2"                                                            >> $VER_DIR/spike
+}
+
+log_dpi_version_to() {
+  VER_DIR=$1/version
+  mkdir -p $VER_DIR
+  echo "$(vcs_version riscv-dpi) - DPI"                                 > $VER_DIR/dpi
+  echo "$2"                                                            >> $VER_DIR/dpi
+}
+
+log_pk_version_to() {
+  VER_DIR=$1/version
+  mkdir -p $VER_DIR
+  echo "$(vcs_version riscv-pk) - Proxy Kernel"                         > $VER_DIR/pk
+  echo "$2"                                                            >> $VER_DIR/pk
+}
