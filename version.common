@@ -1,10 +1,11 @@
 function vcs_version {
   2>&1 pushd $1 > /dev/null
   local git_ver=$(git rev-parse --short=7 HEAD)
+  local git_remote_url=$(git config --get remote.origin.url)
   if [[ -z "$(git status --untracked-files=no --porcelain)" ]]; then
-    echo "$git_ver"
+    echo "${git_ver} @ ${git_remote_url}"
   else
-    echo "$git_ver-dirty"
+    echo "${git_ver}-dirty @ ${git_remote_url}"
   fi
   2>&1 popd > /dev/null
 }
