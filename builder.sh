@@ -59,8 +59,8 @@ if [[ x$TARGET_PK == "xyes"  && x$TARGET_SPIKE == "xno" ]]; then
   >&2 echo "Warning: PK's configure script requires SPIKE to be build first".
 fi
 
-newlib_install_folder="install"
-linux_install_folder="install-linux"
+newlib_install_folder=$PWD/"install"
+linux_install_folder=$PWD/"install-linux"
 spike_extra_flag=""
 
 
@@ -74,11 +74,11 @@ else
   fatal "Error: bad build type: $BUILD_TYPE"
 fi
 
-NEWLIB_GCC_PATH=$PWD/$newlib_install_folder
+NEWLIB_GCC_PATH=$newlib_install_folder
 if [[ $BUILD_TOOLCHAIN == "newlib" ]]; then
-  export RISCV_INSTALL=$PWD/$newlib_install_folder
+  export RISCV_INSTALL=$newlib_install_folder
 elif [[ $BUILD_TOOLCHAIN == "linux" ]]; then
-  export RISCV_INSTALL=$PWD/$linux_install_folder
+  export RISCV_INSTALL=$linux_install_folder
 else
   fatal "Error: bad toolchain: $BUILD_TOOLCHAIN"
 fi
