@@ -17,7 +17,6 @@ fi
 MAKE=$(command -v gmake || command -v make)
 
 PATH="${RISCV_INSTALL}/bin:${PATH}"
-#GCC_VERSION=`gcc -v 2>&1 | tail -1 | awk '{print $3}'`
 
 clean_gcc_linux() {
   if [ -e "$1/build_linux" ]; then
@@ -40,48 +39,103 @@ clean_project() {
   fi
 }
 
+backup_file() {
+  local filename="$1"
+  local backup_id=0
+  local backup_filename="${filename}.$((backup_id++))"
+
+  while [ -e "${backup_filename}" ]; do
+    backup_filename="${filename}.$((backup_id++))"
+  done
+  [ -e "${filename}" ] && mv "${filename}" "${backup_filename}"
+  return 0
+}
+
+init_log_file() {
+  local log_filename="$1"
+  backup_file "${log_filename}"
+  {
+    printf "%0.s==========" {1..8}
+    echo
+    echo "Logged at $(date)"
+    printf "%0.s==========" {1..8}
+    echo
+  } >"${log_filename}"
+}
+
 build_project() {
   echo "Starting $1 build process"
-  mkdir -p "$1/build"
+
+  local run_configure="no"
+  if [ ! -e "$1/build" ]; then
+    mkdir -p "$1/build"
+    run_configure="yes"
+  fi
   pushd "$1/build" >/dev/null || return 255
+
+  init_log_file build.log
   echo "(Log can be found at $PWD/build.log)"
-  echo "Configuring project $1"
-  ../configure "$2" "$3" "$4" "$5" "$6" >build.log 2>&1
+
+  if [ "${run_configure}" = "yes" ]; then
+    echo "Configuring project $1"
+    ../configure "$2" "$3" "$4" "$5" "$6" >>build.log 2>&1
+  fi
   echo "Building project $1"
   $MAKE "-j${JOBS}" >>build.log 2>&1
   echo "Installing project $1"
   $MAKE "-j${JOBS}" install >>build.log 2>&1
   popd >/dev/null || return 255
+  echo "Project $1 installation completed!"
 }
 
 build_gcc_linux() {
   echo "Starting RISC-V GNU Toolchain (Linux) build process"
-  mkdir -p "$1/build_linux"
+
+  local run_configure="no"
+  if [ ! -e "$1/build_linux" ]; then
+    mkdir -p "$1/build_linux"
+    run_configure="yes"
+  fi
   pushd "$1/build_linux" >/dev/null || return 255
+
+  init_log_file build.log
   echo "(Log can be found at $PWD/build.log)"
-  echo "Configuring project $1"
-  ../configure "$2" "$3" "$4" "$5" "$6" >build.log 2>&1
+
+  if [ "${run_configure}" = "yes" ]; then
+    echo "Configuring project $1"
+    ../configure "$2" "$3" "$4" "$5" "$6" >>build.log 2>&1
+  fi
   echo "Building project $1"
   $MAKE "-j${JOBS}" linux >>build.log 2>&1
   echo "Installing project $1"
   $MAKE "-j${JOBS}" install >>build.log 2>&1
   popd >/dev/null || return 255
-  echo -e "RISC-V GNU Toolchain (Linux) installation completed!"
+  echo "RISC-V GNU Toolchain (Linux) installation completed!"
 }
 
 build_gcc_newlib() {
-  echo "Starting RISC-V GNU Toolchain (newlib) build process"
-  mkdir -p "$1/build_newlib"
+  echo "Starting RISC-V GNU Toolchain (Newlib) build process"
+
+  local run_configure="no"
+  if [ ! -e "$1/build_newlib" ]; then
+    mkdir -p "$1/build_newlib"
+    run_configure="yes"
+  fi
   pushd "$1/build_newlib" >/dev/null || return 255
+
+  init_log_file build.log
   echo "(Log can be found at $PWD/build.log)"
-  echo "Configuring project $1"
-  ../configure "$2" "$3" "$4" "$5" "$6" >build.log 2>&1
+
+  if [ "${run_configure}" = "yes" ]; then
+    echo "Configuring project $1"
+    ../configure "$2" "$3" "$4" "$5" "$6" >build.log 2>&1
+  fi
   echo "Building project $1"
   $MAKE "-j${JOBS}" newlib >>build.log 2>&1
   echo "Installing project $1"
   $MAKE "-j${JOBS}" install >>build.log 2>&1
   popd >/dev/null || return 255
-  echo -e "RISC-V GNU Toolchain (Newlib) installation completed!"
+  echo "RISC-V GNU Toolchain (Newlib) installation completed!"
 }
 
 check_newlib_gcc() {
