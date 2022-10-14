@@ -53,8 +53,10 @@ The tools need host GCC version 4.8.5 or above to be built correctly. GCC 4.8.5 
 Execute the following commands to build everything:
 
 	% cd anycore-riscv
-	% ./builder.sh normal newlib compiler+tools   # build the baremetal (newlib) toolchain first
-	% ./builder.sh normal linux  compiler+tools   # then build the linux (glibc) toolchain
+	% ./builder.sh normal newlib compiler+tools       # build the baremetal (newlib) toolchain first
+	% ./builder.sh normal newlib clean+compiler+tools # clean up the build files of previous step
+	% ./builder.sh normal linux  compiler+tools       # then build the linux (glibc) toolchain
+	% ./builder.sh normal linux  clean+compiler+tools # clean up the build files of previous step
 
 This will build all the necessary tools and install them in anycore-riscv/install (baremetal toolchain) and anycore-riscv/install-linux (linux toolchain). Yo can change the install path by changing the `newlib_install_folder` and `linux_install_folder` variable in builder.sh. You should add this location to your path (in ~.mycshrc or ~/.bashrc) so that it is easy to use the tools. Or, you can optionally source the following script, then use `add_riscv <toolchain_path>` to bring in the toolchain:
 
