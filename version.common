@@ -19,9 +19,9 @@ log_newlib_toolchain_version_to() {
   mkdir -p "${VER_DIR}"
   {
     echo "$(vcs_version riscv-gnu-toolchain) - Toolchain"
-    echo "$(vcs_version riscv-gnu-toolchain/riscv-binutils) - Binutils"
-    echo "$(vcs_version riscv-gnu-toolchain/riscv-gcc) - GCC"
-    echo "$(vcs_version riscv-gnu-toolchain/riscv-newlib) - Newlib"
+    echo "$(vcs_version riscv-gnu-toolchain/binutils) - Binutils"
+    echo "$(vcs_version riscv-gnu-toolchain/gcc) - GCC"
+    echo "$(vcs_version riscv-gnu-toolchain/newlib) - Newlib"
     echo "$2"
   } >"${VER_DIR}/riscv64-unknown-elf-toolchain"
 }
@@ -31,9 +31,9 @@ log_linux_toolchain_version_to() {
   mkdir -p "${VER_DIR}"
   {
     echo "$(vcs_version riscv-gnu-toolchain) - Toolchain"
-    echo "$(vcs_version riscv-gnu-toolchain/riscv-binutils) - Binutils"
-    echo "$(vcs_version riscv-gnu-toolchain/riscv-gcc) - GCC"
-    echo "$(vcs_version riscv-gnu-toolchain/riscv-glibc) - glibc"
+    echo "$(vcs_version riscv-gnu-toolchain/binutils) - Binutils"
+    echo "$(vcs_version riscv-gnu-toolchain/gcc) - GCC"
+    echo "$(vcs_version riscv-gnu-toolchain/glibc) - glibc"
     echo "$2"
   } >"${VER_DIR}/riscv64-unknown-linux-gnu-toolchain"
 }
