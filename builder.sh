@@ -134,12 +134,12 @@ fi
 if [ "${TARGET_COMPILER}" = "yes" ]; then
   if [ "${BUILD_TOOLCHAIN}" = "newlib" ]; then
     if [ "${VERSION_ONLY_MODE}" != "yes" ]; then
-      CXXFLAGS_FOR_TARGET_EXTRA="-g" CFLAGS_FOR_TARGET_EXTRA="-g" build_gcc_newlib riscv-gnu-toolchain --prefix="${RISCV_INSTALL}" --with-arch=rv64imfd --with-abi=lp64d --disable-gdb
+      CXXFLAGS_FOR_TARGET_EXTRA="-g" CFLAGS_FOR_TARGET_EXTRA="-g" build_gcc_newlib riscv-gnu-toolchain --prefix="${RISCV_INSTALL}" --with-arch=rv64imafd --with-abi=lp64d --enable-debug-info --disable-linux --disable-llvm --disable-gdb --disable-multilib --disable-qemu-system
     fi
     log_newlib_toolchain_version_to "${RISCV_INSTALL}"
   else
     if [ "${VERSION_ONLY_MODE}" != "yes" ]; then
-      CXXFLAGS_FOR_TARGET_EXTRA="-g" CFLAGS_FOR_TARGET_EXTRA="-g" build_gcc_linux riscv-gnu-toolchain --prefix="${RISCV_INSTALL}" --with-arch=rv64imafd --with-abi=lp64d --disable-gdb
+      CXXFLAGS_FOR_TARGET_EXTRA="-g" CFLAGS_FOR_TARGET_EXTRA="-g" build_gcc_linux riscv-gnu-toolchain --prefix="${RISCV_INSTALL}"  --with-arch=rv64imafd --with-abi=lp64d --enable-debug-info --enable-linux  --enable-llvm  --disable-gdb --disable-multilib --disable-qemu-system
     fi
     log_linux_toolchain_version_to "${RISCV_INSTALL}"
   fi
@@ -173,8 +173,9 @@ if [ "${TARGET_PK}" = "yes" ]; then
       export CC="${RISCV_TOOLCHAIN_PREFIX}gcc"
       export AR="${RISCV_TOOLCHAIN_PREFIX}ar"
       export RANLIB="${RISCV_TOOLCHAIN_PREFIX}ranlib"
-      export CFLAGS="-g -D__riscv64 -march=rv64imfd -mabi=lp64d"
-      export ASFLAGS="-march=rv64imfd -mabi=lp64d"
+      export CFLAGS="-g -D__riscv64 -march=rv64imfd_zicsr_zifencei -mabi=lp64d"
+      export ASFLAGS="-march=rv64imfd_zicsr_zifencei -mabi=lp64d"
+      export LIBS="-lgcc"
       check_command "${CC}"
       check_command "${AR}"
       check_command "${RANLIB}"
