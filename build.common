@@ -64,75 +64,80 @@ init_log_file() {
 }
 
 build_project() {
-  echo "Starting $1 build process"
+  local pname="$1"
+  shift
+  echo "Starting ${pname} build process"
 
   local run_configure="no"
-  if [ ! -e "$1/build" ]; then
-    mkdir -p "$1/build"
+  if [ ! -e "${pname}/build" ]; then
+    mkdir -p "${pname}/build"
     run_configure="yes"
   fi
-  pushd "$1/build" >/dev/null || return 255
+  pushd "${pname}/build" >/dev/null || return 255
 
   init_log_file build.log
   echo "(Log can be found at $PWD/build.log)"
 
   if [ "${run_configure}" = "yes" ]; then
-    echo "Configuring project $1"
-    ../configure "$2" "$3" "$4" "$5" "$6" >>build.log 2>&1
+    echo "Configuring project ${pname}"
+    ../configure "$@" >>build.log 2>&1
   fi
-  echo "Building project $1"
+  echo "Building project ${pname}"
   $MAKE "-j${JOBS}" >>build.log 2>&1
-  echo "Installing project $1"
+  echo "Installing project ${pname}"
   $MAKE "-j${JOBS}" install >>build.log 2>&1
   popd >/dev/null || return 255
-  echo "Project $1 installation completed!"
+  echo "Project ${pname} installation completed!"
 }
 
 build_gcc_linux() {
+  local pname="$1"
+  shift
   echo "Starting RISC-V GNU Toolchain (Linux) build process"
-
   local run_configure="no"
-  if [ ! -e "$1/build_linux" ]; then
-    mkdir -p "$1/build_linux"
+  if [ ! -e "${pname}/build_linux" ]; then
+    mkdir -p "${pname}/build_linux"
     run_configure="yes"
   fi
-  pushd "$1/build_linux" >/dev/null || return 255
+  pushd "${pname}/build_linux" >/dev/null || return 255
 
   init_log_file build.log
   echo "(Log can be found at $PWD/build.log)"
 
   if [ "${run_configure}" = "yes" ]; then
-    echo "Configuring project $1"
-    ../configure "$2" "$3" "$4" "$5" "$6" >>build.log 2>&1
+    echo "Configuring project ${pname}"
+    ../configure "$@" >>build.log 2>&1
   fi
-  echo "Building project $1"
+  echo "Building project ${pname}"
   $MAKE "-j${JOBS}" linux >>build.log 2>&1
-  echo "Installing project $1"
+  echo "Installing project ${pname}"
   $MAKE "-j${JOBS}" install >>build.log 2>&1
   popd >/dev/null || return 255
   echo "RISC-V GNU Toolchain (Linux) installation completed!"
 }
 
 build_gcc_newlib() {
+  local pname="$1"
+  shift
   echo "Starting RISC-V GNU Toolchain (Newlib) build process"
 
   local run_configure="no"
-  if [ ! -e "$1/build_newlib" ]; then
-    mkdir -p "$1/build_newlib"
+  if [ ! -e "${pname}/build_newlib" ]; then
+    mkdir -p "${pname}/build_newlib"
     run_configure="yes"
   fi
-  pushd "$1/build_newlib" >/dev/null || return 255
+  pushd "${pname}/build_newlib" >/dev/null || return 255
 
   init_log_file build.log
   echo "(Log can be found at $PWD/build.log)"
 
   if [ "${run_configure}" = "yes" ]; then
-    echo "Configuring project $1"
-    ../configure "$2" "$3" "$4" "$5" "$6" >build.log 2>&1
+    echo "Configuring project ${pname}"
+    ../configure "$@" >build.log 2>&1
   fi
-  echo "Building project $1"
+  echo "Building project ${pname}"
   $MAKE "-j${JOBS}" newlib >>build.log 2>&1
-  echo "Installing project $1"
+  echo "Installing project ${pname}"
   $MAKE "-j${JOBS}" install >>build.log 2>&1
   popd >/dev/null || return 255
   echo "RISC-V GNU Toolchain (Newlib) installation completed!"

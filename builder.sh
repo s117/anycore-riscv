@@ -130,12 +130,12 @@ fi
 if [ "${TARGET_COMPILER}" = "yes" ]; then
   if [ "${BUILD_TOOLCHAIN}" = "newlib" ]; then
     if [ "${VERSION_ONLY_MODE}" != "yes" ]; then
-      CXXFLAGS_FOR_TARGET_EXTRA="-g" CFLAGS_FOR_TARGET_EXTRA="-g" build_gcc_newlib riscv-gnu-toolchain --prefix="${RISCV_INSTALL}" --with-arch=rv64imfd --with-abi=lp64d
+      CXXFLAGS_FOR_TARGET_EXTRA="-g" CFLAGS_FOR_TARGET_EXTRA="-g" build_gcc_newlib riscv-gnu-toolchain --prefix="${RISCV_INSTALL}" --with-arch=rv64imafd --with-abi=lp64d --enable-debug-info --disable-linux --disable-llvm --disable-gdb --disable-multilib --disable-qemu-system
     fi
     log_newlib_toolchain_version_to "${RISCV_INSTALL}"
   else
     if [ "${VERSION_ONLY_MODE}" != "yes" ]; then
-      CXXFLAGS_FOR_TARGET_EXTRA="-g" CFLAGS_FOR_TARGET_EXTRA="-g" build_gcc_linux riscv-gnu-toolchain --prefix="${RISCV_INSTALL}" --with-arch=rv64imafd --with-abi=lp64d
+      CXXFLAGS_FOR_TARGET_EXTRA="-g" CFLAGS_FOR_TARGET_EXTRA="-g" build_gcc_linux riscv-gnu-toolchain --prefix="${RISCV_INSTALL}"  --with-arch=rv64imafd --with-abi=lp64d --enable-debug-info --enable-linux  --enable-llvm  --disable-gdb --disable-multilib --disable-qemu-system
     fi
     log_linux_toolchain_version_to "${RISCV_INSTALL}"
   fi
@@ -165,7 +165,7 @@ fi
 if [ "${TARGET_PK}" = "yes" ]; then
   PATH="${NEWLIB_GCC_PATH}/bin:${PATH}" check_newlib_gcc
   if [ "${VERSION_ONLY_MODE}" != "yes" ]; then
-    PATH="${NEWLIB_GCC_PATH}/bin:${PATH}" CC=riscv64-unknown-elf-gcc AR=riscv64-unknown-elf-ar RANLIB=riscv64-unknown-elf-ranlib CFLAGS="-g -D__riscv64 -march=rv64imfd -mabi=lp64d" ASFLAGS="-march=rv64imfd -mabi=lp64d" build_project riscv-pk --prefix="${RISCV_INSTALL}/riscv64-unknown-elf" --host=riscv --disable-atomics
+    PATH="${NEWLIB_GCC_PATH}/bin:${PATH}" CC=riscv64-unknown-elf-gcc AR=riscv64-unknown-elf-ar RANLIB=riscv64-unknown-elf-ranlib CFLAGS="-g -D__riscv64 -march=rv64imafd -mabi=lp64d" ASFLAGS="-march=rv64imafd -mabi=lp64d" LIBS="-lgcc" build_project riscv-pk --prefix="${RISCV_INSTALL}/riscv64-unknown-elf" --host=riscv --disable-atomics
   fi
   log_pk_version_to "${RISCV_INSTALL}" "${CR}Build by riscv64-unknown-elf-toolchain:${CR}$(cat "${NEWLIB_GCC_PATH}/version/riscv64-unknown-elf-toolchain")"
 fi
