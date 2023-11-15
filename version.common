@@ -33,6 +33,7 @@ log_linux_toolchain_version_to() {
     echo "$(vcs_version riscv-gnu-toolchain) - Toolchain"
     echo "$(vcs_version riscv-gnu-toolchain/binutils) - Binutils"
     echo "$(vcs_version riscv-gnu-toolchain/gcc) - GCC"
+    echo "$(vcs_version riscv-gnu-toolchain/llvm) - LLVM"
     echo "$(vcs_version riscv-gnu-toolchain/glibc) - glibc"
     echo "$2"
   } >"${VER_DIR}/riscv64-unknown-linux-gnu-toolchain"
