@@ -48,15 +48,11 @@ parse_args() {
     elif [ "${tgt}" = "fesvr" ]; then
       TARGET_FESVR="yes"
     elif [ "${tgt}" = "spike" ]; then
-      TARGET_FESVR="yes"
       TARGET_SPIKE="yes"
     elif [ "${tgt}" = "dpi" ]; then
-      TARGET_FESVR="yes"
       TARGET_DPI="yes"
     elif [ "${tgt}" = "pk" ]; then
       TARGET_PK="yes"
-      TARGET_FESVR="yes"
-      TARGET_SPIKE="yes"
     else
       fatal "Error: bad target: ${tgt}"
     fi
