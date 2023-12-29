@@ -181,4 +181,4 @@ if [ "${TARGET_PK}" = "yes" ]; then
   log_pk_version_to "${RISCV_INSTALL}" "${CR}Build by ${RISCV_TOOLCHAIN_PREFIX}toolchain:${CR}$(cat "${RISCV_INSTALL}/version/${RISCV_TOOLCHAIN_PREFIX}toolchain")"
 fi
 
-echo -e "\\nCompleted!"
+echo -e "Completed!"
