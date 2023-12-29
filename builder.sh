@@ -169,9 +169,10 @@ if [ "${TARGET_PK}" = "yes" ]; then
       export CC="${RISCV_TOOLCHAIN_PREFIX}gcc"
       export AR="${RISCV_TOOLCHAIN_PREFIX}ar"
       export RANLIB="${RISCV_TOOLCHAIN_PREFIX}ranlib"
-      export CFLAGS="-g -D__riscv64 -march=rv64imfd_zicsr_zifencei -mabi=lp64d"
-      export ASFLAGS="-march=rv64imfd_zicsr_zifencei -mabi=lp64d"
-      export LIBS="-lgcc"
+      # The other flags are set by PK's configure.ac. PK's fence.i needs Zifencei
+      # (GCC >= 12 no longer implies it), and this -march comes after PK's own.
+      export CFLAGS="-march=rv64imfd_zicsr_zifencei"
+      export ASFLAGS="-march=rv64imfd_zicsr_zifencei"
       check_command "${CC}"
       check_command "${AR}"
       check_command "${RANLIB}"
