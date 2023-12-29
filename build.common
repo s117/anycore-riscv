@@ -66,15 +66,22 @@ init_log_file() {
 build_project() {
   local pname="$1"
   shift
-  echo "Starting ${pname} build process"
 
   local run_configure="no"
   if [ ! -e "${pname}/build" ]; then
     mkdir -p "${pname}/build"
     run_configure="yes"
   fi
-  pushd "${pname}/build" >/dev/null || return 255
 
+  if [ ! -x "${pname}/configure" ]; then
+    echo "Build ${pname} for the first time, bootstrap the autotools project via \"${pname}/scripts/autogen.sh\""
+    "${pname}/scripts/autogen.sh"
+    echo "Autotools project initialized"
+    echo
+  fi
+
+  echo "Starting ${pname} build process"
+  pushd "${pname}/build" >/dev/null || return 255
   init_log_file build.log
   echo "(Log can be found at $PWD/build.log)"
 
@@ -88,6 +95,7 @@ build_project() {
   $MAKE "-j${JOBS}" install >>build.log 2>&1
   popd >/dev/null || return 255
   echo "Project ${pname} installation completed!"
+  echo
 }
 
 build_gcc_linux() {

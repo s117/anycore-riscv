@@ -166,4 +166,4 @@ if [ "${TARGET_PK}" = "yes" ]; then
   log_pk_version_to "${RISCV_INSTALL}" "${CR}Build by riscv64-unknown-elf-toolchain:${CR}$(cat "${NEWLIB_GCC_PATH}/version/riscv64-unknown-elf-toolchain")"
 fi
 
-echo -e "\\nCompleted!"
+echo -e "Completed!"
