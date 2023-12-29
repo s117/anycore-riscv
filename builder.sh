@@ -161,7 +161,7 @@ fi
 if [ "${TARGET_PK}" = "yes" ]; then
   PATH="${NEWLIB_GCC_PATH}/bin:${PATH}" check_newlib_gcc
   if [ "${VERSION_ONLY_MODE}" != "yes" ]; then
-    PATH="${NEWLIB_GCC_PATH}/bin:${PATH}" CC=riscv64-unknown-elf-gcc AR=riscv64-unknown-elf-ar RANLIB=riscv64-unknown-elf-ranlib CFLAGS="-g -D__riscv64 -march=rv64imafd -mabi=lp64d" ASFLAGS="-march=rv64imafd -mabi=lp64d" LIBS="-lgcc" build_project riscv-pk --prefix="${RISCV_INSTALL}/riscv64-unknown-elf" --host=riscv --disable-atomics
+    PATH="${NEWLIB_GCC_PATH}/bin:${PATH}" build_project riscv-pk --prefix="${RISCV_INSTALL}/riscv64-unknown-elf" --host=riscv64-unknown-elf --disable-atomics
   fi
   log_pk_version_to "${RISCV_INSTALL}" "${CR}Build by riscv64-unknown-elf-toolchain:${CR}$(cat "${NEWLIB_GCC_PATH}/version/riscv64-unknown-elf-toolchain")"
 fi
