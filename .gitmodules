@@ -9,7 +9,8 @@
 	url = https://github.com/riscv/riscv-tests.git
 [submodule "riscv-isa-sim"]
 	path = riscv-isa-sim
-	url = https://github.com/s117/riscv-isa-sim.git
+	url = git@github.ncsu.edu:rsingh25/riscv-isa-sim.git
+	branch = nx-gcc_13.2.0-llvm_17.0.2
 [submodule "anycore-riscv-src"]
 	path = anycore-riscv-src
 	url = https://github.com/s117/anycore-riscv-src.git
@@ -25,3 +26,4 @@
 [submodule "riscv-gnu-toolchain"]
 	path = riscv-gnu-toolchain
 	url = https://github.com/s117/riscv-gnu-toolchain.git
+	branch = nx-gcc_13.2.0-llvm_17.0.2
