@@ -62,18 +62,18 @@ parse_args() {
     fi
   done
 
-  NEWLIB_GCC_PATH="$PWD/install"
   if [ "${BUILD_TOOLCHAIN}" = "newlib" ]; then
     RISCV_INSTALL="$PWD/install"
+    RISCV_TOOLCHAIN_PREFIX="riscv64-unknown-elf-"
   elif [ "${BUILD_TOOLCHAIN}" = "linux" ]; then
     RISCV_INSTALL="$PWD/install-linux"
+    RISCV_TOOLCHAIN_PREFIX="riscv64-unknown-linux-gnu-"
   else
     fatal "Error: bad toolchain: ${BUILD_TOOLCHAIN}"
   fi
 
   if [ "${BUILD_TYPE}" = "debug" ]; then
     RISCV_INSTALL="${RISCV_INSTALL}-debug"
-    NEWLIB_GCC_PATH="${NEWLIB_GCC_PATH}-debug"
     spike_extra_flag="--enable-dbg-trace"
   elif [ "${BUILD_TYPE}" = "normal" ]; then
     echo
@@ -163,11 +163,21 @@ if [ "${TARGET_DPI}" = "yes" ]; then
 fi
 
 if [ "${TARGET_PK}" = "yes" ]; then
-  PATH="${NEWLIB_GCC_PATH}/bin:${PATH}" check_newlib_gcc
   if [ "${VERSION_ONLY_MODE}" != "yes" ]; then
-    PATH="${NEWLIB_GCC_PATH}/bin:${PATH}" CC=riscv64-unknown-elf-gcc AR=riscv64-unknown-elf-ar RANLIB=riscv64-unknown-elf-ranlib CFLAGS="-g -D__riscv64 -march=rv64imfd -mabi=lp64d" ASFLAGS="-march=rv64imfd -mabi=lp64d" build_project riscv-pk --prefix="${RISCV_INSTALL}/riscv64-unknown-elf" --host=riscv --disable-atomics
+    (
+      export PATH="${RISCV_INSTALL}/bin:${PATH}"
+      export CC="${RISCV_TOOLCHAIN_PREFIX}gcc"
+      export AR="${RISCV_TOOLCHAIN_PREFIX}ar"
+      export RANLIB="${RISCV_TOOLCHAIN_PREFIX}ranlib"
+      export CFLAGS="-g -D__riscv64 -march=rv64imfd -mabi=lp64d"
+      export ASFLAGS="-march=rv64imfd -mabi=lp64d"
+      check_command "${CC}"
+      check_command "${AR}"
+      check_command "${RANLIB}"
+      build_project riscv-pk --prefix="${RISCV_INSTALL}/riscv64-unknown-elf" --host=riscv --disable-atomics
+    )
   fi
-  log_pk_version_to "${RISCV_INSTALL}" "${CR}Build by riscv64-unknown-elf-toolchain:${CR}$(cat "${NEWLIB_GCC_PATH}/version/riscv64-unknown-elf-toolchain")"
+  log_pk_version_to "${RISCV_INSTALL}" "${CR}Build by ${RISCV_TOOLCHAIN_PREFIX}toolchain:${CR}$(cat "${RISCV_INSTALL}/version/${RISCV_TOOLCHAIN_PREFIX}toolchain")"
 fi
 
 echo -e "\\nCompleted!"
