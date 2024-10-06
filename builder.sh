@@ -130,12 +130,12 @@ fi
 if [ "${TARGET_COMPILER}" = "yes" ]; then
   if [ "${BUILD_TOOLCHAIN}" = "newlib" ]; then
     if [ "${VERSION_ONLY_MODE}" != "yes" ]; then
-      CXXFLAGS_FOR_TARGET_EXTRA="-g" CFLAGS_FOR_TARGET_EXTRA="-g" build_gcc_newlib riscv-gnu-toolchain --prefix="${RISCV_INSTALL}" --with-arch=rv64imfd --with-abi=lp64d
+      CXXFLAGS_FOR_TARGET_EXTRA="-g" CFLAGS_FOR_TARGET_EXTRA="-g" build_gcc_newlib riscv-gnu-toolchain --prefix="${RISCV_INSTALL}" --with-arch=rv64imfd --with-abi=lp64d --disable-gdb
     fi
     log_newlib_toolchain_version_to "${RISCV_INSTALL}"
   else
     if [ "${VERSION_ONLY_MODE}" != "yes" ]; then
-      CXXFLAGS_FOR_TARGET_EXTRA="-g" CFLAGS_FOR_TARGET_EXTRA="-g" build_gcc_linux riscv-gnu-toolchain --prefix="${RISCV_INSTALL}" --with-arch=rv64imafd --with-abi=lp64d
+      CXXFLAGS_FOR_TARGET_EXTRA="-g" CFLAGS_FOR_TARGET_EXTRA="-g" build_gcc_linux riscv-gnu-toolchain --prefix="${RISCV_INSTALL}" --with-arch=rv64imafd --with-abi=lp64d --disable-gdb
     fi
     log_linux_toolchain_version_to "${RISCV_INSTALL}"
   fi
