@@ -81,6 +81,10 @@ parse_args() {
     fatal "Error: bad build type: ${BUILD_TYPE}"
   fi
 
+  if [ -n "${RISCV_INSTALL_OVERRIDE}" ]; then
+    RISCV_INSTALL="${RISCV_INSTALL_OVERRIDE}"
+  fi
+
   echo "******************************************"
   echo "                Task brief                "
   echo "******************************************"

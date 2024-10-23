@@ -8,6 +8,10 @@
 
 JOBS=$(nproc)
 
+if [ -n "${JOBS_OVERRIDE}" ]; then
+  JOBS="${JOBS_OVERRIDE}"
+fi
+
 if [ -z "${RISCV_INSTALL}" ]; then
   echo "Please set the RISCV_INSTALL environment variable to your preferred install path."
   exit 1
