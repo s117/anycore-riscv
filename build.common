@@ -17,8 +17,10 @@ if [ -z "${RISCV_INSTALL}" ]; then
   exit 1
 fi
 
-# Prefer gmake over make if exists.
-MAKE=$(command -v gmake || command -v make)
+if [ -z "${MAKE}" ]; then
+  # Prefer gmake over make if exists.
+  MAKE=$(command -v make-4.3 || command -v gmake || command -v make)
+fi
 
 PATH="${RISCV_INSTALL}/bin:${PATH}"
 
