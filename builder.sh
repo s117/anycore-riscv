@@ -171,8 +171,10 @@ if [ "${TARGET_PK}" = "yes" ]; then
       export RANLIB="${RISCV_TOOLCHAIN_PREFIX}ranlib"
       # The other flags are set by PK's configure.ac. PK's fence.i needs Zifencei
       # (GCC >= 12 no longer implies it), and this -march comes after PK's own.
-      export CFLAGS="-march=rv64imfd_zicsr_zifencei"
+      # GCC 16 defaults that a kernel without libc cannot use are turned off.
+      export CFLAGS="-march=rv64imfd_zicsr_zifencei -fno-pie -fno-asynchronous-unwind-tables -fno-unwind-tables -fno-stack-protector -fno-tree-loop-distribute-patterns"
       export ASFLAGS="-march=rv64imfd_zicsr_zifencei"
+      export LDFLAGS="-Wl,--no-warn-rwx-segments"
       check_command "${CC}"
       check_command "${AR}"
       check_command "${RANLIB}"
