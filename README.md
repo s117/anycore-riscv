@@ -48,7 +48,19 @@ specific version of these repos and checking them out will mess up the dependncy
 the toolset will either fail to build or run correctly.
 
 # <a name="build-tools"></a>Build the Tools
-The tools need host GCC version 4.8.5 or above to be built correctly. GCC 4.8.5 (Red Hat 4.8.5-44) and GCC 10.2.0 is tested working. GNU Make 4.1+ is required to build the linux (glibc) toolchain.
+The RISC-V toolchain is GCC 16.1.0 + LLVM 22.1.8 (clang, lld, flang), with glibc 2.44, binutils 2.47 and newlib 4.6.0. It is built and tested with host GCC 16.2.1, CMake 4.4 and Ninja. Building it needs a C++17 host compiler, CMake 3.23 or above, Ninja, and GNU Make 4.1+. LLVM and flang take most of the build time and memory; it was built on a host with 36 cores and 125 GB of RAM, with `FLANG_PARALLEL_COMPILE_JOBS=16` to bound the memory of the flang compile jobs.
+
+The linux (glibc) toolchain and the tools (FESVR, spike and PK) can be built into a chosen location with:
+
+	% cd anycore-riscv
+	% RISCV_INSTALL_OVERRIDE=<install-dir> FLANG_PARALLEL_COMPILE_JOBS=16 ./builder.sh normal linux clean+compiler+fesvr+spike+pk
+	% RISCV_INSTALL_OVERRIDE=<install-dir> FLANG_PARALLEL_COMPILE_JOBS=16 ./builder.sh normal linux compiler+fesvr+spike+pk
+
+The first command only removes the build files of a previous build. PK is built with the linux toolchain, so the newlib toolchain is optional.
+
+Programs for anycore must be compiled for `rv64imafd` (never `rv64gc`, anycore has no C extension) and linked statically at 0x10000, e.g. `riscv64-unknown-linux-gnu-gcc -static -Wl,-Ttext-segment,0x10000`. With clang or flang, also pass `-march=rv64imafd -mabi=lp64d`. flang allocates local and automatic arrays on the stack, which can overflow PK's 8 MiB stack, so compile Fortran with `-mmlir -fdynamic-heap-array -mmlir -fstack-array-size=8192` to place large arrays on the heap.
+
+The older instructions below build both toolchains with the default install locations:
 
 Execute the following commands to build everything:
 
